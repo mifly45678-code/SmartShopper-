@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART SHOPPER - Secured Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #admin-main-content { display: none; }
+        .login-box { max-width: 420px; margin: 100px auto; padding: 40px; background: #fff; box-shadow: 0px 20px 50px rgba(0,0,0,0.05); border-radius: 24px; text-align: center; border: 1px solid #e2e8f0; }
+        body.dark-theme .login-box { background: #1e293b; border-color: #334155; }
+        .action-btn { border: none; padding: 6px 12px; cursor: pointer; border-radius: 8px; font-size: 12px; font-weight: 600; margin: 2px; color: white; transition: all 0.3s; }
+        .btn-soldout { background-color: #f59e0b; }
+        .btn-available { background-color: #10b981; }
+        .btn-delete-prod { background-color: #ef4444; }
+        .admin-section { background: #ffffff; padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+        body.dark-theme .admin-section { background: #1e293b; border-color: #334155; }
+        table { width:100%; border-collapse: collapse; text-align: left; margin-top: 15px; border-radius: 12px; overflow: hidden; }
+        th, td { padding: 14px; border-bottom: 1px solid #e2e8f0; }
+        body.dark-theme th, body.dark-theme td { border-bottom-color: #334155; }
+    </style>
+</head>
+<body class="light-theme">
+
+    <div id="admin-login" class="login-box">
+        <h2 style="font-weight:700;"><i class="fa-solid fa-lock" style="color:var(--primary-teal);"></i> Admin Access Only</h2>
+        <p style="color:#64748b;">Please enter your secret password to manage Smart Shopper.</p>
+        <input type="password" id="adminPass" placeholder="Enter Password" style="width:100%; padding:12px; margin:15px 0; border-radius:12px; border:1px solid #cbd5e1; box-sizing:border-box;">
+        <button onclick="checkAdminPassword()" style="background:var(--primary-teal); color:white; padding:12px 25px; border:none; border-radius:12px; font-weight:600; cursor:pointer; width:100%;">Access Dashboard</button>
+    </div>
+
+    <div id="admin-main-content">
+        <header style="background: #111827; color: white; padding: 20px 5%;">
+            <h2 style="margin:0; font-size:22px; font-weight:700;"><i class="fa-solid fa-gauge" style="color:var(--primary-teal)"></i> SMART SHOPPER Control Centre</h2>
+            <button onclick="logoutAdmin()" style="float: right; margin-top: -30px; background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius:8px; font-weight:600; cursor: pointer;">Secure Logout</button>
+        </header>
+
+        <main style="padding: 40px 5%; max-width: 1300px; margin: auto;">
+            <section class="admin-section">
+                <h3 style="margin-top:0;"><i class="fa-solid fa-plus" style="color:var(--primary-teal)"></i> Upload New Product</h3>
+                <form id="uploadProductForm" onsubmit="adminAddProduct(event)" style="display:flex; flex-wrap:wrap; gap:15px;">
+                    <input type="text" id="prodName" placeholder="Product Title" required style="flex:1; min-width:200px; padding: 12px; border-radius:10px; border:1px solid #cbd5e1;">
+                    <input type="number" id="prodPrice" placeholder="Price (Rs.)" required style="width: 150px; padding: 12px; border-radius:10px; border:1px solid #cbd5e1;">
+                    <input type="text" id="prodImg" placeholder="Image URL" style="flex:1; min-width:200px; padding: 12px; border-radius:10px; border:1px solid #cbd5e1;">
+                    <input type="text" id="prodDesc" placeholder="Brief Description" style="flex:1; min-width:200px; padding: 12px; border-radius:10px; border:1px solid #cbd5e1;">
+                    <button type="submit" style="background: var(--primary-teal); color: white; padding: 12px 24px; border: none; border-radius:10px; font-weight:600; cursor: pointer;">Upload Item</button>
+                </form>
+            </section>
+
+            <section class="admin-section">
+                <h3><i class="fa-solid fa-boxes-stacked" style="color:var(--primary-teal)"></i> Live Products Inventory</h3>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead style="background: #f1f5f9; font-weight:600;">
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsDisplay"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="admin-section">
+                <h3><i class="fa-solid fa-cart-flatbed-suitcase" style="color:var(--accent-gold)"></i> Customer Orders Database</h3>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead style="background: #f1f5f9;">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Product Image</th>
+                                <th>Product Name</th>
+                                <th>Customer Name</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th>Product ID</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersDisplay"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
