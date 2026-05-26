@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART SHOPPER - Premium Online Shopping Group</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-theme">
+
+    <button class="floating-game-btn" onclick="toggleGameModal()" title="Play Quick Game! 🎯">
+        <i class="fa-solid fa-gamepad"></i> <span>Play & Win!</span>
+    </button>
+
+    <header>
+        <div class="navbar">
+            <div class="logo-area">
+                <div class="logo-placeholder">
+                    <i class="fa-solid fa-lightbulb"></i>
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="sub-logo">ONLINE SHOPPING GROUP</span>
+                    <h1 class="main-logo">SMART SHOPPER</h1>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search luxury products, brands...">
+                <button type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </div>
+
+            <div class="nav-actions">
+                <button id="theme-toggle-btn" onclick="toggleTheme()">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i> <span>Dark Mode</span>
+                </button>
+                <button onclick="toggleCartModal()" class="cart-btn">
+                    <i class="fa-solid fa-cart-shopping"></i> <span id="cart-count">0</span> Items
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-banner">
+            <h2>Smart Shopping, Better Living!</h2>
+            <p>Explore millions of wholesale products directly from world-class manufacturers.</p>
+        </section>
+
+        <section class="offers-section">
+            <h3><i class="fa-solid fa-fire text-gold"></i> Today's Mega Offers <i class="fa-solid fa-fire text-gold"></i></h3>
+            <div class="products-grid" id="offersDisplay">
+                </div>
+        </section>
+
+        <section class="products-section">
+            <h3>Trending Collection</h3>
+            <div class="products-grid" id="productsDisplay">
+                </div>
+        </section>
+    </main>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-content">
+            <span class="close-btn" onclick="toggleCartModal()">&times;</span>
+            <h3><i class="fa-solid fa-basket-shopping"></i> Your Shopping Luxury Cart</h3>
+            <div id="cartItemsList"></div>
+            <div class="cart-summary">
+                <h4>Total Amount: <span id="cartTotalCost">Rs. 0</span></h4>
+            </div>
+            
+            <form id="customerOrderForm" onsubmit="handleOrderSubmit(event)">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-user"></i> Full Name</label>
+                    <input type="text" id="custName" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-location-dot"></i> Delivery Address</label>
+                    <textarea id="custAddress" rows="3" required placeholder="Enter your complete shipping address"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-phone"></i> Phone Number</label>
+                    <input type="tel" id="custPhone" required placeholder="e.g. +94 77 XXXXXXX">
+                </div>
+                <button type="submit" class="submit-order-btn">Confirm & Secure Order</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="gameModal" class="modal">
+        <div class="modal-content game-box">
+            <span class="close-btn" onclick="toggleGameModal()">&times;</span>
+            <h3>🎯 Click the Golden Bulb!</h3>
+            <p>Score 5 points to get a special corporate vibe!</p>
+            <div id="gameZone">
+                <i id="targetBulb" class="fa-solid fa-lightbulb" onclick="hitTarget()"></i>
+            </div>
+            <p>Score: <span id="gameScore" style="font-weight: bold; color: var(--accent-gold);">0</span></p>
+        </div>
+    </div>
+
+    <div id="aboutModal" class="modal">
+        <div class="modal-content about-box">
+            <span class="close-btn" onclick="toggleAboutModal()">&times;</span>
+            <div class="about-header">
+                <i class="fa-solid fa-building-shield"></i>
+                <h3>About Smart Shopper</h3>
+            </div>
+            <hr style="border-color: var(--border-light); margin: 15px 0;">
+            <p><strong>CEO:</strong> MA.Ahamed Mifly (CEO of SmartShopper)</p>
+            <p><strong>Customer Care:</strong> 0758487089</p>
+            <p><strong>Official Email:</strong> smartshopperindustry@gmail.com</p>
+            <p class="tagline">Providing luxury style and manufacturing wholesale rates worldwide.</p>
+        </div>
+    </div>
+
+    <div id="receiptModal" class="modal">
+        <div class="modal-content receipt-box" id="invoicePrintArea">
+            <div class="receipt-header">
+                <h2>SMART SHOPPER</h2>
+                <p>Luxury & Wholesale Industry</p>
+                <p>Hotline: 0758487089</p>
+            </div>
+            <div class="receipt-body">
+                <p><strong>Order ID:</strong> <span id="rOrderId"></span></p>
+                <p><strong>Customer:</strong> <span id="rName"></span></p>
+                <p><strong>Phone:</strong> <span id="rPhone"></span></p>
+                <p><strong>Date:</strong> <span id="rDate"></span></p>
+                <hr style="border-style: dashed;">
+                <div id="rItems"></div>
+                <hr style="border-style: dashed;">
+                <h3 style="text-align: right;">Total Paid: <span id="rTotal"></span></h3>
+            </div>
+            <button class="action-btn btn-available" onclick="window.print()" style="width: 100%; margin-top: 15px; padding: 12px;"><i class="fa-solid fa-print"></i> Print Invoice</button>
+            <button class="action-btn btn-delete-prod" onclick="toggleReceiptModal()" style="width: 100%; margin-top: 5px;">Close</button>
+        </div>
+    </div>
+
+    <footer>
+        <p style="cursor: pointer; text-decoration: underline; margin-bottom: 10px;" onclick="toggleAboutModal()"><i class="fa-solid fa-circle-info"></i> About Us / Contact Developer</p>
+        <p class="luxury-footer">Choose your privacy 🔏 <br> Choose your luxury life 🎉</p>
+        <p style="margin-top: 15px; font-size: 11px; opacity: 0.6;">&copy; 2026 SMART SHOPPER Group. All Rights Reserved.</p>
+    </footer>
+
+    <script src="customer.js"></script>
+</body>
+</html>
